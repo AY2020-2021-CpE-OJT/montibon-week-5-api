@@ -5,12 +5,10 @@ require('dotenv/config');
 
 
 const phoneBookRoutes = require('./routes/phonebook');
-const trialPBRoutes = require('./routes/trialpb');
 
 
 app.use(express.json());
 app.use('/phonebook' , phoneBookRoutes);
-app.use('/trialpb' , trialPBRoutes);
 
 
 mongoose.connect(

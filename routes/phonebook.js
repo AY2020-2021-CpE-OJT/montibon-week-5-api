@@ -12,6 +12,15 @@ router.get('/' , async(req, res) => {
     }
 });
 
+router.get('/:postId', async (req, res) =>{
+    try{
+        const getContact = await Phonebook.findOne({_id: req.params.postId})
+        res.json(getContact);
+    }catch(err){
+        res.json({message:err});
+    }
+});
+
 router.post('/' , async(req, res) => {
      const createContact = new Phonebook({
         first_name: req.body.first_name,
@@ -23,6 +32,26 @@ router.post('/' , async(req, res) => {
          const savedContact = await createContact.save()
          res.json(savedContact);
     } catch (err){
+        res.json({message: err});
+    }
+});
+
+router.delete('/:postId', async (req,res)=>{
+    try {
+        const removeContact = await Phonebook.deleteOne({_id: req.params.postId});
+        res.json(removeContact);
+    } catch (err){
+        res.json({message:err});
+    }
+});
+
+router.patch('/:postId', async (req,res) => {
+    try{
+        const updateContact = await Phonebook.updateOne({_id: req.params.postId},
+             {$set: {first_name: req.body.first_name}});
+        res.json(updatedMenu);
+
+    } catch (err) {
         res.json({message: err});
     }
 });
