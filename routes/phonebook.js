@@ -48,12 +48,16 @@ router.delete('/:postId', async (req,res)=>{
 router.patch('/:postId', async (req,res) => {
     try{
         const updateContact = await Phonebook.updateOne({_id: req.params.postId},
-             {$set: {first_name: req.body.first_name}});
-        res.json(updatedMenu);
+             {$set: {first_name: req.body.first_name,
+                     last_name: req.body.last_name,
+                     phone_numbers: req.body.phone_numbers}});
+        res.json(updateContact);
 
     } catch (err) {
         res.json({message: err});
     }
 });
+
+router.put
 
 module.exports = router;
