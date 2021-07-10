@@ -11,6 +11,10 @@ const phoneBookRoutes = require('./routes/phonebook');
 app.use(express.json());
 app.use('/phonebook' , phoneBookRoutes);
 
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
+
 
 
 mongoose.connect(
