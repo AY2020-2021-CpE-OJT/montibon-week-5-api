@@ -12,7 +12,7 @@ app.use(express.json());
 app.use('/phonebook' , phoneBookRoutes);
 
 app.get("/", (req, res) => {
-    res.send("Hello World");
+    res.send("Welcome to Phonebook");
 });
 
 
@@ -24,5 +24,5 @@ mongoose.connect(
 );
 
 app.listen(port, () => {
-    console.log('Connected on localhost');
+    console.log('Connected to Port');
 });

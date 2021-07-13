@@ -12,6 +12,16 @@ router.get('/' , async(req, res) => {
     }
 });
 
+router.get('/pretty' , async(req, res) => {
+    try{
+        const showPrettyPhonebook = await Phonebook.find();
+        res.json(showPrettyPhonebook);
+
+    }catch(err){
+        res.json({message:err});
+    }
+});
+
 router.get('/:postId', async (req, res) =>{
     try{
         const getContact = await Phonebook.findOne({_id: req.params.postId})
