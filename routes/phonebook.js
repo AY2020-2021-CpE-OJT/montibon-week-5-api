@@ -12,15 +12,6 @@ router.get('/' , async(req, res) => {
     }
 });
 
-router.get('/pretty' , async(req, res) => {
-    try{
-        const showPrettyPhonebook = await Phonebook.find();
-        res.json(showPrettyPhonebook);
-
-    }catch(err){
-        res.json({message:err});
-    }
-});
 
 router.get('/:postId', async (req, res) =>{
     try{
@@ -68,6 +59,5 @@ router.patch('/:postId', async (req,res) => {
     }
 });
 
-router.put
 
 module.exports = router;
