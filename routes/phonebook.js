@@ -15,7 +15,7 @@ router.get('/' , async(req, res) => {
 
 router.get('/:postId', async (req, res) =>{
     try{
-        const getContact = await Phonebook.findOne({_id: req.params.postId})
+        const getContact = await Phonebook.findById();
         res.json(getContact);
     }catch(err){
         res.json({message:err});
