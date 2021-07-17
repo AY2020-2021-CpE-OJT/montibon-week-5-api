@@ -29,11 +29,11 @@ mongoose.connect(
 );
 
 
-// app.listen(port, () => {
-//     console.log('Connected to Port');
-// });
+app.listen(port, () => {
+    console.log('Connected to Port');
+});
 
-app.listen(5000);
+//app.listen(5000);
 
 // Tutorial 2
 
