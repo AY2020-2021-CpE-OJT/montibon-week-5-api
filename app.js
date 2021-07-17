@@ -1,8 +1,9 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-require('dotenv/config');
+dotenv.config();
 let port = process.env.PORT || 3000;
 
 
@@ -30,59 +31,19 @@ app.listen(port, () => {
 
 // Tutorial 1, JWT Securing
 
-app.post('/api/login', (req, res) => {
-    const user = {
-        id: 1,
-        username: 'Gerald',
-        email: 'gerald@gmail.com'
-    }
-    jwt.sign({user}, 'secretkey', {expiresIn: '30s'}, (err, token) => {
-        res.json({
-            token
-        });
-    });
-});
 
-app.get("/api", (req, res) => {
-    res.send("Welcome to API");
-});
+// // Token Format
+// // Authorization: Bearer <access_token>
 
-app.post('/api/posts', verifyToken, (req, res) => {
-    jwt.verify(req.token, 'secretkey', (err, authData) =>{
-        if (err){
-            res.sendStatus(403);
-        } else {
-            res.json({
-                message: 'Post created...',
-                authData
-        });
-        }
-    });
-});
+// app.listen(5000);
+
+// Tutorial 2
+
+// const authRoute = require('./routes/auth');
+// const postRoute = require('./routes/posts');
+
+// app.use('/api/user' , authRoute);
+// app.use('/api/posts' , postRoute);
 
 
-// Token Format
-// Authorization: Bearer <access_token>
-
-//Verify Token
-function verifyToken(req, res, next){
-    // Get auth header value
-    const bearerHeader = req.headers['authorization'];
-
-    // Check if bearer is undefined
-    if (typeof bearerHeader !== 'undefined'){
-        // Split at the space
-        const bearer = bearerHeader.split(' ');
-        // Get token from array
-        const bearerToken = bearer[1];
-        // Set the token
-        req.token = bearerToken;
-        // Next middleware
-        next();
-    } else {
-        // Forbidden
-        res.sendStatus(403);
-    }
-}
-
-app.listen(5000);
+// app.listen(3000, () => console.log ('Server Up and Running'));
