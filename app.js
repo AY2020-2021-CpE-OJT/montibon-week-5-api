@@ -8,10 +8,15 @@ let port = process.env.PORT || 3000;
 
 
 const phoneBookRoutes = require('./routes/phonebook');
+const authRoute = require('./routes/auth');
+const posts = require('./routes/posts');
 
 
 app.use(express.json());
 app.use('/phonebook' , phoneBookRoutes);
+
+app.use('/auth' , authRoute);
+app.use('/posts' , posts);
 
 app.get("/", (req, res) => {
     res.send("Welcome to Phonebook");
@@ -25,9 +30,9 @@ mongoose.connect(
 );
 
 
-app.listen(port, () => {
-    console.log('Connected to Port');
-});
+// app.listen(port, () => {
+//     console.log('Connected to Port');
+// });
 
 // Tutorial 1, JWT Securing
 
@@ -35,7 +40,7 @@ app.listen(port, () => {
 // // Token Format
 // // Authorization: Bearer <access_token>
 
-// app.listen(5000);
+app.listen(5000);
 
 // Tutorial 2
 
