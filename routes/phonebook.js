@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Phonebook = require ('../collections/Phonebook');
-const verifyToken = require('./verifyToken');
+const verifyToken = require('../routes/verifyToken');
 const jwt = require('jsonwebtoken');
 
 
@@ -88,7 +88,7 @@ router.delete('/:id', verifyToken, async (req,res)=>{
     }
 });
 
-router.patch('/:postId', verifyToken, async (req,res) => {
+router.patch('/:id', verifyToken, async (req,res) => {
     try{
         const updateContact = await Phonebook.updateOne({_id: req.params.postId},
              {$set: {first_name: req.body.first_name,
