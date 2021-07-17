@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 dotenv.config();
 let port = process.env.PORT || 3000;
 
@@ -33,12 +32,6 @@ mongoose.connect(
 // app.listen(port, () => {
 //     console.log('Connected to Port');
 // });
-
-// Tutorial 1, JWT Securing
-
-
-// // Token Format
-// // Authorization: Bearer <access_token>
 
 app.listen(5000);
 

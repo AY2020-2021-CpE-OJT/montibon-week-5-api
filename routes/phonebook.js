@@ -2,12 +2,24 @@ const express = require('express');
 const router = express.Router();
 const Phonebook = require ('../collections/Phonebook');
 const verifyToken = require('./verifyToken');
+const jwt = require('jsonwebtoken');
 
 
-router.get('/' , verifyToken, async (req, res) => {
+router.get('/open', verifyToken, async (req, res) => {
+    const openPhonebook = await Phonebook.find();
+    jwt.verify(req.token, 'secretkey', (err, authData) =>{
+        if (err){
+            res.sendStatus(403);
+        } else {
+             res.json(openPhonebook);
+        }
+    });
+});
+
+router.get('/', verifyToken, async (req, res) => {
     try{
         const showPhonebook = await Phonebook.find();
-        jwt.verify(req.token, 'secretkey', (err, showPhonebook) =>{
+        jwt.verify(req.token, 'secretkey', (err) =>{
             if (err) {
                 res.sendStatus(403);
             }
@@ -21,11 +33,11 @@ router.get('/' , verifyToken, async (req, res) => {
 });
 
 
-router.get('/:postId', verifyToken, async (req, res) =>{
+router.get('/:id', verifyToken, async (req, res) =>{
     try{
         const getContact = await Phonebook.findById();
 
-        jwt.verify(req.token, 'secretkey', (err, getContact) =>{
+        jwt.verify(req.token, 'secretkey', (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -46,7 +58,7 @@ router.post('/' , verifyToken, async(req, res) => {
     try{
          const savedContact = await createContact.save()
 
-         jwt.verify(req.token, 'secretkey', (err, savedContact) =>{
+         jwt.verify(req.token, 'secretkey', (err, authData) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -59,15 +71,16 @@ router.post('/' , verifyToken, async(req, res) => {
     }
 });
 
-router.delete('/:postId', verifyToken, async (req,res)=>{
+router.delete('/:id', verifyToken, async (req,res)=>{
     try {
         const removeContact = await Phonebook.deleteOne({_id: req.params.postId});
 
-        jwt.verify(req.token, 'secretkey', (err, removeContact) =>{
+        jwt.verify(req.token, 'secretkey', (err, authData) =>{
             if (err){
                 res.sendStatus(403);
             } else {
-                res.json(removeContact);            }
+                res.json(removeContact);            
+            }
         });
         
     } catch (err){
@@ -82,17 +95,17 @@ router.patch('/:postId', verifyToken, async (req,res) => {
                      last_name: req.body.last_name,
                      phone_numbers: req.body.phone_numbers}});
         
-        jwt.verify(req.token, 'secretkey', (err, updateContact) =>{
+        jwt.verify(req.token, 'secretkey', (err, authData) =>{
             if (err){
                 res.sendStatus(403);
             } else {
-                res.json(updateContact);            }
+                res.json(updateContact);            
+            }
         });
 
     } catch (err) {
         res.json({message: err});
     }
 });
-
 
 module.exports = router;
