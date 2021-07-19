@@ -59,7 +59,7 @@ router.post('/createcontact' , verifyToken, async(req, res) => {
     }
 });
 
-router.delete('/removecontact/:id', verifyToken, async (req,res)=>{
+router.delete('/delete/:id', verifyToken, async (req,res)=>{
     try {
         const removeContact = await Phonebook.findByIdAndDelete(req.params.id);
 
@@ -78,7 +78,7 @@ router.delete('/removecontact/:id', verifyToken, async (req,res)=>{
 
 router.patch('/updatecontact/:id', verifyToken, async (req,res) => {
     try{
-        const updateContact = await Phonebook.findByIdAndUpdate(req.params.id, 
+        const updateContact = await Phonebook.updateOne({_id: req.params.postId},
              {$set: {first_name: req.body.first_name,
                      last_name: req.body.last_name,
                      phone_numbers: req.body.phone_numbers}});
