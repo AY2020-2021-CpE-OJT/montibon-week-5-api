@@ -78,7 +78,7 @@ router.delete('/delete/:id', verifyToken, async (req,res)=>{
 
 router.patch('/updatecontact/:id', verifyToken, async (req,res) => {
     try{
-        const updateContact = await Phonebook.updateOne({_id: req.params.postId},
+        const updateContact = await Phonebook.updateOne({_id: req.params.id},
              {$set: {first_name: req.body.first_name,
                      last_name: req.body.last_name,
                      phone_numbers: req.body.phone_numbers}});
