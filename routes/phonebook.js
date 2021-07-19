@@ -5,18 +5,7 @@ const verifyToken = require('../routes/verifyToken');
 const jwt = require('jsonwebtoken');
 
 
-router.get('/open', verifyToken, async (req, res) => {
-    const openPhonebook = await Phonebook.find();
-    jwt.verify(req.token, 'secretkey', (err, authData) =>{
-        if (err){
-            res.sendStatus(403);
-        } else {
-             res.json(openPhonebook);
-        }
-    });
-});
-
-router.get('/', verifyToken, async (req, res) => {
+router.get('/showphonebook', verifyToken, async (req, res) => {
     try{
         const showPhonebook = await Phonebook.find();
         jwt.verify(req.token, 'secretkey', (err) =>{
@@ -33,10 +22,9 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 
-router.get('/:id', verifyToken, async (req, res) =>{
+router.get('/getcontact/:id', verifyToken, async (req, res) =>{
     try{
-        const getContact = await Phonebook.findById();
-
+        const getContact = await Phonebook.findById(req.params.id);
         jwt.verify(req.token, 'secretkey', (err) =>{
             if (err){
                 res.sendStatus(403);
@@ -49,7 +37,7 @@ router.get('/:id', verifyToken, async (req, res) =>{
     }
 });
 
-router.post('/' , verifyToken, async(req, res) => {
+router.post('/createcontact' , verifyToken, async(req, res) => {
      const createContact = new Phonebook({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -58,7 +46,7 @@ router.post('/' , verifyToken, async(req, res) => {
     try{
          const savedContact = await createContact.save()
 
-         jwt.verify(req.token, 'secretkey', (err, authData) =>{
+         jwt.verify(req.token, 'secretkey', (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -71,11 +59,11 @@ router.post('/' , verifyToken, async(req, res) => {
     }
 });
 
-router.delete('/:id', verifyToken, async (req,res)=>{
+router.delete('/removecontact/:id', verifyToken, async (req,res)=>{
     try {
-        const removeContact = await Phonebook.deleteOne({_id: req.params.postId});
+        const removeContact = await Phonebook.findByIdAndDelete(req.params.id);
 
-        jwt.verify(req.token, 'secretkey', (err, authData) =>{
+        jwt.verify(req.token, 'secretkey', (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -88,14 +76,14 @@ router.delete('/:id', verifyToken, async (req,res)=>{
     }
 });
 
-router.patch('/:id', verifyToken, async (req,res) => {
+router.patch('/updatecontact/:id', verifyToken, async (req,res) => {
     try{
-        const updateContact = await Phonebook.updateOne({_id: req.params.postId},
+        const updateContact = await Phonebook.findByIdAndUpdate(req.params.id, 
              {$set: {first_name: req.body.first_name,
                      last_name: req.body.last_name,
                      phone_numbers: req.body.phone_numbers}});
         
-        jwt.verify(req.token, 'secretkey', (err, authData) =>{
+        jwt.verify(req.token, 'secretkey', (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
