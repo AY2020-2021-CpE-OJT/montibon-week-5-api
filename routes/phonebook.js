@@ -5,7 +5,7 @@ const verifyToken = require('../routes/verifyToken');
 const jwt = require('jsonwebtoken');
 
 
-router.get('/showphonebook', verifyToken, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try{
         const showPhonebook = await Phonebook.find();
         jwt.verify(req.token, 'secretkey', (err) =>{
@@ -22,7 +22,7 @@ router.get('/showphonebook', verifyToken, async (req, res) => {
 });
 
 
-router.get('/getcontact/:id', verifyToken, async (req, res) =>{
+router.get('/:id', verifyToken, async (req, res) =>{
     try{
         const getContact = await Phonebook.findById(req.params.id);
         jwt.verify(req.token, 'secretkey', (err) =>{
@@ -37,7 +37,7 @@ router.get('/getcontact/:id', verifyToken, async (req, res) =>{
     }
 });
 
-router.post('/createcontact' , verifyToken, async(req, res) => {
+router.post('/create' , verifyToken, async(req, res) => {
      const createContact = new Phonebook({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -76,7 +76,7 @@ router.delete('/delete/:id', verifyToken, async (req,res)=>{
     }
 });
 
-router.patch('/updatecontact/:id', verifyToken, async (req,res) => {
+router.patch('/update/:id', verifyToken, async (req,res) => {
     try{
         const updateContact = await Phonebook.updateOne({_id: req.params.id},
              {$set: {first_name: req.body.first_name,
