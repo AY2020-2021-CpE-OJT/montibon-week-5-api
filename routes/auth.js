@@ -59,19 +59,6 @@ router.post('/login', async (req,res) => {
 //     });
 // });
 
-// router.post('/api/login', (req, res) => {
-
-//     const username = req.body.username
-//     const user = {name: username}
-    
-
-//     jwt.sign({user}, process.env.TOKEN_SECRET, (err, token) => {
-//         res.json({
-//             token
-//         });
-//     });
-// });
-
 
 //, {expiresIn: '30s'}
 

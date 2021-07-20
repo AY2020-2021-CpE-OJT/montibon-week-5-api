@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const router = express.Router();
 const Phonebook = require ('../collections/Phonebook');
@@ -8,7 +9,7 @@ const jwt = require('jsonwebtoken');
 router.get('/', verifyToken, async (req, res) => {
     try{
         const showPhonebook = await Phonebook.find();
-        jwt.verify(req.token, 'secretkey', (err) =>{
+        jwt.verify(req.token, process.env.TOKEN_SECRET, (err) =>{
             if (err) {
                 res.sendStatus(403);
             }
@@ -25,7 +26,7 @@ router.get('/', verifyToken, async (req, res) => {
 router.get('/:id', verifyToken, async (req, res) =>{
     try{
         const getContact = await Phonebook.findById(req.params.id);
-        jwt.verify(req.token, 'secretkey', (err) =>{
+        jwt.verify(req.token, process.env.TOKEN_SECRET, (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -46,7 +47,7 @@ router.post('/create' , verifyToken, async(req, res) => {
     try{
          const savedContact = await createContact.save()
 
-         jwt.verify(req.token, 'secretkey', (err) =>{
+         jwt.verify(req.token, process.env.TOKEN_SECRET, (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -63,7 +64,7 @@ router.delete('/delete/:id', verifyToken, async (req,res)=>{
     try {
         const removeContact = await Phonebook.findByIdAndDelete(req.params.id);
 
-        jwt.verify(req.token, 'secretkey', (err) =>{
+        jwt.verify(req.token, process.env.TOKEN_SECRET, (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
@@ -83,7 +84,7 @@ router.patch('/update/:id', verifyToken, async (req,res) => {
                      last_name: req.body.last_name,
                      phone_numbers: req.body.phone_numbers}});
         
-        jwt.verify(req.token, 'secretkey', (err) =>{
+        jwt.verify(req.token, process.env.TOKEN_SECRET, (err) =>{
             if (err){
                 res.sendStatus(403);
             } else {
