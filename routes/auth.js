@@ -11,6 +11,9 @@ router.post('/register', async (req, res) => {
     const {error} = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
+    const usernameExist = await User.findOne({username: req.body.username});
+    if (usernameExist) return res.status(400).send('Username already exists');
+
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -37,7 +40,7 @@ router.post('/login', async (req,res) => {
 
     const validPass = await bcrypt.compare(req.body.password, user.password);
 
-    if (!validPass) return res.status(400).send('Invalid Email/Password');
+    if (!validPass) return res.status(400).send('Invalid Username/Password');
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.json({token});
